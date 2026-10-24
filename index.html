@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Slip Ledger</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Slip Ledger">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#f3f4f1" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121514" media="(prefers-color-scheme: dark)">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="wrap">
+  <h1>Slip Ledger</h1>
+
+  <section class="stats" aria-label="Totals">
+    <div><span class="label">Slips</span><span class="val num" id="statSlips">0</span></div>
+    <div><span class="label">Owed now</span><span class="val num due" id="statOwed">$0</span></div>
+    <div><span class="label">Paid out</span><span class="val num" id="statPaid">$0</span></div>
+  </section>
+
+  <button class="slip-btn" id="slipBtn" type="button">I slipped<small id="slipBtnSub">Logs it and opens a $100 donation</small></button>
+
+  <section class="confirm" id="confirmBox" hidden>
+    <p><strong>Log a slip?</strong> This adds <span class="num" id="confirmAmt">$100</span> to what you owe.</p>
+    <p class="muted" id="confirmSplit"></p>
+    <div class="row">
+      <button class="btn primary grow" id="confirmYes" type="button">Yes, log it</button>
+      <button class="btn grow" id="confirmNo" type="button">Cancel</button>
+    </div>
+  </section>
+
+  <section class="ledger">
+    <h2>Ledger</h2>
+    <div id="ledgerList"></div>
+  </section>
+
+  <details id="settingsBox">
+    <summary>Stake settings</summary>
+    <div class="settings">
+      <label for="amtInput">Penalty per slip
+        <input id="amtInput" type="number" min="10" step="5" inputmode="numeric">
+      </label>
+      <fieldset>
+        <legend>Who gets it</legend>
+        <label for="rFidf"><input type="checkbox" id="rFidf"> Friends of the IDF (FIDF)</label>
+        <label for="rPp"><input type="checkbox" id="rPp"> Planned Parenthood</label>
+      </fieldset>
+      <fieldset>
+        <legend>With both picked</legend>
+        <label for="modeSplit"><input type="radio" name="mode" id="modeSplit" value="split"> Split the penalty between them</label>
+        <label for="modeEach"><input type="radio" name="mode" id="modeEach" value="each"> Full penalty to each</label>
+      </fieldset>
+      <p class="note">Donations go through Every.org, which forwards them to the charity. Save a card or Apple Pay in your Every.org account once and each payment takes about two taps. Every.org's minimum is $10 per gift.</p>
+      <div class="row">
+        <button class="btn" id="exportBtn" type="button">Copy backup</button>
+        <button class="btn" id="importBtn" type="button">Restore backup</button>
+      </div>
+      <textarea id="backupBox" class="backup" rows="4" hidden aria-label="Backup text" placeholder="Paste a backup here, then tap Restore backup again"></textarea>
+      <p class="note">Everything is stored only on this phone. Copy a backup now and then and keep it in Notes.</p>
+    </div>
+  </details>
+</main>
+<div class="toast" id="toast" hidden role="status"></div>
+<script src="app.js"></script>
+</body>
+</html>

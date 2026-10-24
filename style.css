@@ -1,0 +1,96 @@
+/* Layout: one narrow column. Totals, one big stake button, then the ledger of what is owed. */
+:root {
+  --bg: #f3f4f1;
+  --surface: #ffffff;
+  --ink: #181c1a;
+  --muted: #5d6662;
+  --line: #d9ddd8;
+  --stake: #b3261e;
+  --stake-ink: #ffffff;
+  --ok: #2f6b45;
+  --ok-soft: #e3efe6;
+  --due-soft: #f8e5e3;
+  --display: ui-rounded, "SF Pro Rounded", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --body: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #121514; --surface: #1b1f1d; --ink: #eceeea; --muted: #9aa39e; --line: #2c3330;
+    --stake: #e0493f; --stake-ink: #160807; --ok: #7cc495; --ok-soft: #1d2c22; --due-soft: #33191a;
+    color-scheme: dark;
+  }
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+[hidden] { display: none !important; }
+html { background: var(--bg); }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font-family: var(--body); font-size: 16px; line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+}
+.wrap {
+  max-width: 520px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-top: max(24px, calc(env(safe-area-inset-top, 0px) + 12px));
+  padding-bottom: max(40px, calc(env(safe-area-inset-bottom, 0px) + 24px));
+  display: flex; flex-direction: column; gap: 22px;
+}
+h1, h2 { font-family: var(--display); margin: 0; text-wrap: balance; }
+h1 { font-size: 15px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+h2 { font-size: 13px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.stats div { padding: 14px 0; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.stats div + div { padding-left: 12px; border-left: 1px solid var(--line); }
+.stats .label { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.stats .val { font-size: 24px; }
+.stats .val.due { color: var(--stake); }
+
+button, textarea, input { font: inherit; }
+button { cursor: pointer; }
+button:focus-visible, a:focus-visible, input:focus-visible, summary:focus-visible { outline: 3px solid var(--stake); outline-offset: 2px; }
+.slip-btn {
+  width: 100%; border: 0; border-radius: 16px; background: var(--stake); color: var(--stake-ink);
+  padding: 30px 18px; font-family: var(--display); font-weight: 800; font-size: 28px; letter-spacing: -.01em;
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+}
+.slip-btn small { font-family: var(--body); font-weight: 500; font-size: 14px; opacity: .85; letter-spacing: 0; }
+.slip-btn:active { transform: translateY(1px); }
+
+.confirm { border: 2px solid var(--stake); border-radius: 14px; background: var(--surface); padding: 18px; display: flex; flex-direction: column; gap: 12px; }
+.confirm p { margin: 0; }
+.row { display: flex; gap: 10px; flex-wrap: wrap; }
+.btn { border-radius: 10px; padding: 12px 16px; min-height: 44px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
+.btn.primary { background: var(--stake); border-color: var(--stake); color: var(--stake-ink); }
+.btn.good { background: var(--ok); border-color: var(--ok); color: var(--surface); }
+.btn.grow { flex: 1 1 140px; }
+
+.ledger { display: flex; flex-direction: column; gap: 10px; }
+#ledgerList { display: flex; flex-direction: column; gap: 10px; }
+.item { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+.item.due { background: var(--due-soft); border-color: transparent; }
+.item .top { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.pill { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 3px 8px; border-radius: 99px; }
+.pill.due { background: var(--stake); color: var(--stake-ink); }
+.pill.paid { background: var(--ok-soft); color: var(--ok); }
+.lines { display: flex; flex-direction: column; gap: 10px; }
+.line { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+.muted { color: var(--muted); font-size: 14px; }
+.empty { color: var(--muted); padding: 14px; border: 1px dashed var(--line); border-radius: 12px; }
+
+details { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px; }
+summary { cursor: pointer; font-weight: 600; min-height: 24px; }
+.settings { display: flex; flex-direction: column; gap: 16px; margin-top: 14px; }
+.settings label { display: flex; align-items: center; gap: 10px; min-height: 32px; }
+.settings fieldset { border: 0; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; }
+.settings legend { font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; padding: 0; }
+.settings input[type=number] { width: 110px; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); font-family: var(--mono); font-size: 16px; }
+.settings input[type=checkbox], .settings input[type=radio] { width: 22px; height: 22px; accent-color: var(--stake); }
+.note { font-size: 13px; color: var(--muted); margin: 0; }
+.backup { width: 100%; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); padding: 10px; font-family: var(--mono); font-size: 13px; }
+.toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(20px + env(safe-area-inset-bottom, 0px)); background: var(--ink); color: var(--bg); padding: 10px 16px; border-radius: 10px; font-weight: 500; max-width: calc(100% - 32px); text-align: center; }
+@media (prefers-reduced-motion: no-preference) { .slip-btn { transition: transform .08s; } }
